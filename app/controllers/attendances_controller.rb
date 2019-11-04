@@ -16,6 +16,12 @@ class AttendancesController < ApplicationController
   end
 
   def edit
+    unless current_user.admin?
+      unless current_user.id == params[:id].to_i
+        flash[:danger] = '一般ユーザはアクセスできません'
+        redirect_to root_url
+      end
+    end
     @user = User.find(params[:id])
     @first_day = first_day(params[:date])
     @last_day = @first_day.end_of_month

@@ -19,14 +19,23 @@
             <tr>
               <td><%= day.worked_on.to_s(:date) %></td>
               <td><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-              <td><%= af.time_field :started_at, class: "form-control" %></td>
-              <td><%= af.time_field :finished_at, class: "form-control" %></td>
+              <% if Date.current < day.worked_on %>
+                <td><%= af.time_field :started_at, readonly: true, class: "form-control" %></td>
+                <td><%= af.time_field :finished_at, readonly: true, class: "form-control" %></td>
+              <% else %>
+                <td><%= af.time_field :started_at, class: "form-control" %></td>
+                <td><%= af.time_field :finished_at, class: "form-control" %></td>
+              <% end %>
               <td>
                 <% if day.started_at.present? && day.finished_at.present? %>
                   <%= working_times(day.started_at, day.finished_at) %>
                 <% end %>
               </td>
-              <td><%= af.text_field :note, class: "form-control" %></td>
+              <% if Date.current < day.worked_on %>
+                <td><%= af.text_field :note, readonly: true, class: "form-control" %></td>
+              <% else %>
+                <td><%= af.text_field :note, class: "form-control" %></td>
+              <% end %>
             </tr>
           <% end %>
         <% end %>

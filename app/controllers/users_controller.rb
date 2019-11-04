@@ -5,11 +5,22 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: [:destroy, :edit_basic_info, :update_basic_info]
 
   def index
-    # @users = User.all
+    unless current_user.admin?
+      unless current_user.id == params[:id].to_i
+        flash[:danger] = '一般ユーザはアクセスできません'
+        redirect_to root_url
+      end
+    end
     @users = User.paginate(page: params[:page])
   end
 
   def show
+    unless current_user.admin?
+      unless current_user.id == params[:id].to_i
+        flash[:danger] = '一般ユーザはアクセスできません'
+        redirect_to root_url
+      end
+    end
     @user = User.find(params[:id])
     @first_day = first_day(params[:first_day])
     @last_day = @first_day.end_of_month
@@ -65,12 +76,14 @@ class UsersController < ApplicationController
 
   def update_basic_info
     @user = User.find(params[:id])
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
-      redirect_to @user   
-    else
-      render 'edit_basic_info'
+    @users = User.all
+    @users.each do |user|
+      unless user.update_attributes(basic_info_params)
+        render 'edit_basic_info'
+      end
     end
+    flash[:success] = "基本情報を更新しました。"
+    redirect_to @user
   end
 
   private
