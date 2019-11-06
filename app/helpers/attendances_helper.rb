@@ -42,4 +42,12 @@ module AttendancesHelper
     return attendances
   end
 
+  def weekDayColor(wday)
+    if wday == 0
+      return 'sunday'
+    elsif wday == 6
+      return 'saturday'
+    end
+  end
+
 end

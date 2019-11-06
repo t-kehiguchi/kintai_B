@@ -18,7 +18,7 @@
           <%= fields_for "attendances[]", day do |af| %>
             <tr>
               <td><%= day.worked_on.to_s(:date) %></td>
-              <td><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
+              <td class="<%= weekDayColor(day.worked_on.wday) %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
               <% if Date.current < day.worked_on %>
                 <td><%= af.time_field :started_at, readonly: true, class: "form-control" %></td>
                 <td><%= af.time_field :finished_at, readonly: true, class: "form-control" %></td>
