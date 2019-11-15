@@ -50,4 +50,16 @@ module AttendancesHelper
     end
   end
 
+  def round15Minites(datetime)
+    minutes = 0
+    if datetime.min >= 15 and datetime.min <= 29
+      minutes = 15
+    elsif datetime.min >= 30 and datetime.min <= 44
+      minutes = 30
+    elsif datetime.min >= 45 and datetime.min <= 59
+      minutes = 45
+    end
+    return Time.new(datetime.year, datetime.month, datetime.day, datetime.hour, minutes, datetime.sec)
+  end
+
 end
