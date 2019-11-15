@@ -1,3 +1,14 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// 検索フォーム
+.search-label {
+  display: grid;
+}
+
+.form-control.search {
+  margin: auto;
+  width: 300px;
+}
+
+.btn.search {
+  width: 50px;
+  padding: 6px;
+}

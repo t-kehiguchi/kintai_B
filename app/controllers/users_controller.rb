@@ -11,7 +11,11 @@ class UsersController < ApplicationController
         redirect_to root_url
       end
     end
-    @users = User.paginate(page: params[:page])
+    if params[:name]
+      @users = user_search(params[:name]).paginate(page: params[:page])
+    else
+      @users = User.paginate(page: params[:page])
+    end
   end
 
   def show
@@ -96,6 +100,10 @@ class UsersController < ApplicationController
       params.require(:user).permit(:basic_time, :work_time)
     end
     
+    def user_search(name)
+      @users = User.where(['name LIKE ?', "%#{name}%"])
+    end
+
     # beforeアクション
 
     # ログイン済みユーザーか確認
